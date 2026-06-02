@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ brand_name }} - Produk Serba Indah</title>
+
+    {% if hero_image %}
+    <link
+      rel="preload"
+      as="image"
+      href="{{ url_for('static', filename='img/' + hero_image) }}"
+    />
+    {% endif %}
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+      /* Gaya Hero Section (sama seperti sebelumnya) */
+      .hero {
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        text-align: center;
+        color: white;
+      }
+      .hero::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+      }
+      .hero .hero-text {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Gaya tambahan khusus untuk halaman detail produk */
+      .product-section {
+        padding: 7rem 7% 1.4rem;
+        background-color: #fff;
+      }
+
+      .product-section h2 {
+        text-align: center;
+        font-size: 2.6rem;
+        margin-bottom: 3rem;
+        color: #1a1a1a;
+      }
+
+      .product-section h2 span {
+        color: var(--primary, #007bff);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .product-card {
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+        cursor: pointer; /* Indikator visual bisa diklik */
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Pastikan link mengisi seluruh card dan teks link tidak berubah warna */
+      .product-card a {
+        text-decoration: none;
+        color: inherit;
+        display: block; /* Membuat seluruh area card bisa diklik */
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        background-color: #f0f0f0;
+      }
+
+      .product-card .product-name {
+        font-size: 1.4rem;
+        margin: 1rem 0 0.5rem;
+      }
+
+      .product-card .price-range {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #007b00;
+        margin-bottom: 1rem;
+      }
+
+      .product-card .description {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}" class="logo">Serba<span>Indah</span></a>
+      <div class="nav-menu">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('home') }}#brands">Merek Kasur</a>
+        <a href="{{ url_for('home') }}#contact">Kontak</a>
+      </div>
+      <div class="navbar-icons">
+        <a href="#"><i data-feather="shopping-cart"></i></a>
+        <a href="#"><i data-feather="phone"></i></a>
+        <a href="#"><i data-feather="message-circle"></i></a>
+      </div>
+    </nav>
+
+    <header
+      class="hero"
+      {%
+      if
+      hero_image
+      %}style="background-image: url('{{ url_for('static', filename='img/' + hero_image) }}');"
+      {%
+      endif
+      %}
+    >
+      <div class="hero-text">
+        <h1>Produk Merek {{ brand_name }}</h1>
+        <p>Kualitas terbaik untuk tidur nyenyak setiap malam.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="product-section">
+        <h2>Pilihan Produk dari <span>{{ brand_name }}</span></h2>
+
+        <div class="product-grid">
+          {% for mattress in mattresses %}
+          <div class="product-card">
+            <a href="{{ mattress.ecommerce_url }}" target="_blank">
+              <img
+                src="{{ url_for('static', filename='img/' + mattress.image_url) }}"
+                alt="{{ mattress.name }}"
+              />
+              <h3 class="product-name">{{ mattress.name }}</h3>
+              <p class="price-range">{{ mattress.price_range }}</p>
+              <p class="description">{{ mattress.description }}</p>
+            </a>
+          </div>
+          {% else %}
+          <p>Belum ada produk yang tersedia untuk merek ini.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="contact" class="contact">
+        <h2>Kontak Kami</h2>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.519098921868!2d112.73030367469733!3d-7.291771971755913!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbf06790a3c7%3A0xc3b8a1c9d885a5a1!2sToko%20Mebel%20Surabaya!5e0!3m2!1sen!2sid!4v1717904085465!5m2!1sen!2sid"
+          width="100%"
+          height="300"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-icons">
+        <a href="#"><i data-feather="instagram"></i></a>
+        <a href="#"><i data-feather="twitter"></i></a>
+        <a href="#"><i data-feather="shopping-cart"></i></a>
+        <a href="#"><i data-feather="message-circle"></i></a>
+        <a href="#"><i data-feather="phone"></i></a>
+      </div>
+      <p>&copy; 2025 Serba Indah. All rights reserved.</p>
+    </footer>
+
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>
