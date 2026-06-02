@@ -18,7 +18,14 @@ app = Flask(__name__)
 def get_db_connection():
     """Koneksi ke PostgreSQL Railway menggunakan DATABASE_URL"""
     try:
-        DATABASE_URL = os.environ["DATABASE_URL"]
+        # DEBUG: cek apakah variable masuk
+        print("DATABASE_URL =", os.environ.get("DATABASE_URL"))
+
+        DATABASE_URL = os.environ.get("DATABASE_URL")
+
+        if not DATABASE_URL:
+            raise Exception("DATABASE_URL belum masuk ke environment Railway!")
+
         result = urlparse(DATABASE_URL)
 
         conn = psycopg2.connect(
@@ -33,7 +40,6 @@ def get_db_connection():
     except Exception as e:
         print(f"Error connecting to database: {e}")
         return None
-
 
 # =========================
 # HOME PAGE
