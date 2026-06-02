@@ -15,7 +15,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: var(--bg);
   color: var(--dark);
 }
@@ -52,7 +52,7 @@ body {
 
 /* Hero */
 .hero {
-  background-image: url('../img/hero.png');
+  background-image: url("../img/Hero.png");
   background-size: cover;
   background-position: center;
   height: 90vh;
@@ -154,7 +154,7 @@ footer {
 }
 
 .contact form button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
